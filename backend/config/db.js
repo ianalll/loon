@@ -1,6 +1,9 @@
-// backend/config/db.js
 const { Pool } = require('pg');
-require('dotenv').config();
+
+// Загружаем .env только локально
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -8,9 +11,9 @@ const pool = new Pool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   database: process.env.DB_DATABASE,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
 
-// Проверка подключения
 pool.connect((err, client, release) => {
   if (err) {
     console.error('Ошибка подключения к PostgreSQL:', err.message);
