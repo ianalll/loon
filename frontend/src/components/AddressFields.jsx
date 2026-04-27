@@ -1,5 +1,4 @@
-// frontend/src/components/AddressFields.jsx
-// КОМПОНЕНТ ПОЛЕЙ АДРЕСА С ПОДСКАЗКАМИ DADATA
+// ПОЛЕ АДРЕСА С ПОДСКАЗКАМИ DADATA
 import { useState } from 'react';
 import styled from 'styled-components';
 import { AddressSuggestions } from 'react-dadata';

@@ -1,4 +1,3 @@
-// frontend/src/hooks/useRefreshData.js
 import { useQueryClient } from '@tanstack/react-query';
 
 export const useRefreshData = () => {

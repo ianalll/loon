@@ -1,4 +1,3 @@
-// frontend/src/pages/CartPage.jsx
 // СТРАНИЦА КОРЗИНЫ
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -311,11 +310,11 @@ const CartPage = () => {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   
-  // Состояния для модальных окон
+  // МО
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
-    const [confirmTitle, setConfirmTitle] = useState('');
+  const [confirmTitle, setConfirmTitle] = useState('');
   const [confirmText, setConfirmText] = useState('');
   const [infoTitle, setInfoTitle] = useState('');
   const [infoText, setInfoText] = useState('');
@@ -507,7 +506,7 @@ const CartPage = () => {
         </ContentWrapper>
       </CartContainer>
       
-      {/* МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ */}
+      {/* МО ПОДТВЕРЖДЕНИЯ */}
       {showConfirmModal && (
         <ModalOverlay onClick={() => setShowConfirmModal(false)}>
           <ModalContent onClick={e => e.stopPropagation()}>
@@ -521,7 +520,7 @@ const CartPage = () => {
         </ModalOverlay>
       )}
       
-      {/* МОДАЛЬНОЕ ОКНО ИНФОРМАЦИИ */}
+      {/* МО ИНФОРМАЦИИ */}
       {showInfoModal && (
         <ModalOverlay onClick={() => setShowInfoModal(false)}>
           <InfoModal onClick={e => e.stopPropagation()}>

@@ -1,4 +1,3 @@
-// backend/server/app.js
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
@@ -9,9 +8,6 @@ const fs = require('fs');
 const pool = require('../config/db');
 require('dotenv').config();
 
-// =====================================================
-// ПРОСТОЙ IN-MEMORY КЭШ 
-// =====================================================
 const cache = new Map();
 
 // Функция получения данных из кэша
@@ -55,9 +51,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// =====================================================
 // НАСТРОЙКА ЗАГРУЗКИ ФАЙЛОВ
-// =====================================================
 
 const uploadDir = 'uploads/products';
 if (!fs.existsSync(uploadDir)) {
@@ -94,9 +88,8 @@ const upload = multer({
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// =====================================================
-// Middleware
-// =====================================================
+// Доступ
+
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -121,9 +114,7 @@ const authenticateAdmin = (req, res, next) => {
   next();
 };
 
-// =====================================================
 // ТОВАРЫ - ДЛЯ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ
-// =====================================================
 
 app.get('/api/products', async (req, res) => {
   const cacheKey = 'products_all';
@@ -171,9 +162,7 @@ app.get('/api/products/:id', async (req, res) => {
   }
 });
 
-// =====================================================
 // ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
-// =====================================================
 
 app.put('/api/user/profile', authenticateToken, async (req, res) => {
   const { first_name, last_name } = req.body;
@@ -195,9 +184,7 @@ app.put('/api/user/profile', authenticateToken, async (req, res) => {
   }
 });
 
-// =====================================================
 // РАЗМЕРЫ ТОВАРА
-// =====================================================
 
 app.get('/api/products/:id/sizes', async (req, res) => {
   const cacheKey = `product_sizes_${req.params.id}`;
@@ -306,9 +293,7 @@ app.put('/api/admin/products/:id/sizes/:size', authenticateToken, authenticateAd
   }
 });
 
-// =====================================================
 // КОЛЛЕКЦИИ
-// =====================================================
 
 app.get('/api/collections', async (req, res) => {
   const cacheKey = 'collections_all';
@@ -341,9 +326,7 @@ app.get('/api/collections/:id', async (req, res) => {
   }
 });
 
-// =====================================================
 // АДМИН-ПАНЕЛЬ
-// =====================================================
 
 app.get('/api/admin/products', authenticateToken, authenticateAdmin, async (req, res) => {
   try {
@@ -375,7 +358,6 @@ app.post('/api/admin/upload', authenticateToken, authenticateAdmin, upload.singl
 app.post('/api/admin/products', authenticateToken, authenticateAdmin, async (req, res) => {
   const { name, category, price, color, description, image_url, is_new, is_promotion, collection_id, is_active } = req.body;
   
-  // Преобразуем collection_id: пустую строку → null
   const finalCollectionId = (collection_id === '' || collection_id === null || collection_id === undefined) 
     ? null 
     : parseInt(collection_id);
@@ -422,7 +404,6 @@ app.put('/api/admin/products/:id', authenticateToken, authenticateAdmin, async (
     const updatedIsNew = is_new !== undefined ? is_new : product.is_new;
     const updatedIsPromotion = is_promotion !== undefined ? is_promotion : product.is_promotion;
     
-    // Простая проверка для collection_id
     let updatedCollectionId = collection_id;
     if (updatedCollectionId === '' || updatedCollectionId === null || updatedCollectionId === undefined) {
       updatedCollectionId = null;
@@ -461,7 +442,6 @@ app.delete('/api/admin/products/:id', authenticateToken, authenticateAdmin, asyn
       return res.status(404).json({ error: 'Товар не найден' });
     }
     
-    // Очищаем кэш товаров и размеров
     clearProductCache();
     
     res.json({ message: 'Товар удален', product: result.rows[0] });
@@ -481,7 +461,6 @@ app.put('/api/admin/products/:id/hide', authenticateToken, authenticateAdmin, as
       return res.status(404).json({ error: 'Товар не найден' });
     }
     
-    // Очищаем кэш товаров
     clearCache('products_all');
     
     res.json({ message: 'Товар скрыт', product: result.rows[0] });
@@ -501,7 +480,6 @@ app.put('/api/admin/products/:id/restore', authenticateToken, authenticateAdmin,
       return res.status(404).json({ error: 'Товар не найден' });
     }
     
-    // Очищаем кэш товаров
     clearCache('products_all');
     
     res.json({ message: 'Товар восстановлен', product: result.rows[0] });
@@ -511,9 +489,7 @@ app.put('/api/admin/products/:id/restore', authenticateToken, authenticateAdmin,
   }
 });
 
-// =====================================================
 // АДМИН-КОЛЛЕКЦИИ
-// =====================================================
 
 app.post('/api/admin/collections', authenticateToken, authenticateAdmin, async (req, res) => {
   const { name, description } = req.body;
@@ -560,7 +536,6 @@ app.put('/api/admin/collections/:id', authenticateToken, authenticateAdmin, asyn
       return res.status(404).json({ error: 'Коллекция не найдена' });
     }
     
-    // Очищаем кэш коллекций и товаров
     clearCache('collections_all');
     clearCache('products_all');
     
@@ -579,7 +554,6 @@ app.delete('/api/admin/collections/:id', authenticateToken, authenticateAdmin, a
       return res.status(404).json({ error: 'Коллекция не найдена' });
     }
     
-    // Очищаем кэш коллекций и товаров
     clearCache('collections_all');
     clearCache('products_all');
     
@@ -590,9 +564,7 @@ app.delete('/api/admin/collections/:id', authenticateToken, authenticateAdmin, a
   }
 });
 
-// =====================================================
 // КОРЗИНА
-// =====================================================
 
 app.get('/api/cart', authenticateToken, async (req, res) => {
   try {
@@ -673,9 +645,7 @@ app.delete('/api/cart/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// =====================================================
 // ЗАКАЗЫ (ПОЛЬЗОВАТЕЛЬ)
-// =====================================================
 
 app.get('/api/orders', authenticateToken, async (req, res) => {
   try {
@@ -719,9 +689,7 @@ app.get('/api/orders/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// =====================================================
 // АДМИН-УПРАВЛЕНИЕ ЗАКАЗАМИ
-// =====================================================
 
 // Получить все заказы (только для админа)
 app.get('/api/admin/orders', authenticateToken, authenticateAdmin, async (req, res) => {
@@ -772,7 +740,7 @@ app.get('/api/admin/orders/:id', authenticateToken, authenticateAdmin, async (re
   }
 });
 
-// Принять заказ (изменить статус на 'processing')
+// Принять заказ
 app.put('/api/admin/orders/:id/accept', authenticateToken, authenticateAdmin, async (req, res) => {
   try {
     const result = await pool.query(
@@ -791,7 +759,7 @@ app.put('/api/admin/orders/:id/accept', authenticateToken, authenticateAdmin, as
   }
 });
 
-// Отклонить заказ (изменить статус на 'rejected')
+// Отклонить заказ
 app.put('/api/admin/orders/:id/reject', authenticateToken, authenticateAdmin, async (req, res) => {
   const client = await pool.connect();
   
@@ -827,7 +795,6 @@ app.put('/api/admin/orders/:id/reject', authenticateToken, authenticateAdmin, as
     
     await client.query('COMMIT');
     
-    // Очищаем кэш товаров и размеров (изменились остатки)
     clearProductCache();
     
     res.json({ success: true, message: 'Заказ отклонён' });
@@ -841,7 +808,7 @@ app.put('/api/admin/orders/:id/reject', authenticateToken, authenticateAdmin, as
   }
 });
 
-// Отправить заказ (изменить статус на 'shipped')
+// Отправить заказ
 app.put('/api/admin/orders/:id/ship', authenticateToken, authenticateAdmin, async (req, res) => {
   try {
     const result = await pool.query(
@@ -860,7 +827,7 @@ app.put('/api/admin/orders/:id/ship', authenticateToken, authenticateAdmin, asyn
   }
 });
 
-// Доставить заказ (изменить статус на 'delivered')
+// Доставить заказ
 app.put('/api/admin/orders/:id/deliver', authenticateToken, authenticateAdmin, async (req, res) => {
   try {
     const result = await pool.query(
@@ -924,7 +891,6 @@ app.put('/api/admin/orders/:id/cancel', authenticateToken, authenticateAdmin, as
     
     await client.query('COMMIT');
     
-    // Очищаем кэш товаров и размеров (изменились остатки)
     clearProductCache();
     
     res.json({ success: true, message: 'Заказ отменён' });
@@ -938,7 +904,7 @@ app.put('/api/admin/orders/:id/cancel', authenticateToken, authenticateAdmin, as
   }
 });
 
-// Удалить заказ (админ) - ПОЛНОСТЬЮ УДАЛИТЬ ИЗ БД
+// Удалить заказ (админ) ПОЛНОСТЬЮ УДАЛИТЬ ИЗ БД
 app.delete('/api/admin/orders/:id', authenticateToken, authenticateAdmin, async (req, res) => {
   const client = await pool.connect();
   
@@ -971,9 +937,7 @@ app.delete('/api/admin/orders/:id', authenticateToken, authenticateAdmin, async 
   }
 });
 
-// =====================================================
 // ОТМЕНА ЗАКАЗА ПОЛЬЗОВАТЕЛЕМ
-// =====================================================
 
 app.put('/api/orders/:id/cancel', authenticateToken, async (req, res) => {
   const client = await pool.connect();
@@ -1017,7 +981,6 @@ app.put('/api/orders/:id/cancel', authenticateToken, async (req, res) => {
     
     await client.query('COMMIT');
     
-    // Очищаем кэш товаров и размеров (изменились остатки)
     clearProductCache();
     
     res.json({ success: true, message: 'Заказ успешно отменён' });
@@ -1031,9 +994,7 @@ app.put('/api/orders/:id/cancel', authenticateToken, async (req, res) => {
   }
 });
 
-// =====================================================
-// ОФОРМЛЕНИЕ ЗАКАЗА (обновлённый с entrance и floor)
-// =====================================================
+// ОФОРМЛЕНИЕ ЗАКАЗА
 
 app.get('/api/user/address', authenticateToken, async (req, res) => {
   try {
@@ -1143,7 +1104,6 @@ app.post('/api/orders', authenticateToken, async (req, res) => {
     await client.query('DELETE FROM cart WHERE user_id = $1', [req.user.id]);
     await client.query('COMMIT');
     
-    // Очищаем кэш товаров и размеров (изменились остатки)
     clearProductCache();
     
     res.json({ 
@@ -1161,9 +1121,7 @@ app.post('/api/orders', authenticateToken, async (req, res) => {
   }
 });
 
-// =====================================================
 // ИЗБРАННОЕ
-// =====================================================
 
 app.get('/api/favorites', authenticateToken, async (req, res) => {
   try {
@@ -1209,9 +1167,7 @@ app.delete('/api/favorites/:product_id', authenticateToken, async (req, res) => 
   }
 });
 
-// =====================================================
 // АВТОРИЗАЦИЯ
-// =====================================================
 
 app.post('/api/register', async (req, res) => {
   const { email, password, first_name, last_name, phone } = req.body;
@@ -1283,9 +1239,8 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// =====================================================
 // ЗАПУСК СЕРВЕРА
-// =====================================================
+
 const PORT = process.env.PORT || 5000;
 
 async function startServer() {

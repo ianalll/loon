@@ -1,4 +1,3 @@
-// frontend/src/pages/CheckoutPage.jsx
 // СТРАНИЦА ОФОРМЛЕНИЯ ЗАКАЗА
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -295,10 +294,10 @@ const CheckoutPage = () => {
   
   useEffect(() => {
     checkAuthAndFetchCart();
-    loadUserProfile(); // ← ДОБАВЛЕНО
+    loadUserProfile();
   }, []);
   
-  // Новая функция: загружаем данные из профиля
+  // Загружаем данные из профиля
   const loadUserProfile = () => {
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -499,7 +498,7 @@ const CheckoutPage = () => {
                 
                 <SectionTitle>Адрес доставки</SectionTitle>
                 
-                {/* КОМПОНЕНТ АДРЕСА С ПОДСКАЗКАМИ DADATA */}
+                {/* АДРЕС С ПОДСКАЗКАМИ DADATA */}
                 <AddressFields 
                   formData={formData} 
                   onChange={handleAddressUpdate} 
@@ -573,7 +572,7 @@ const CheckoutPage = () => {
               </form>
             </FormCard>
             
-            {/* ПРАВАЯ КОЛОНКА - СУММАРИ */}
+            {/* ПРАВАЯ КОЛОНКА*/}
             <SummaryCard>
               <SectionTitle>Ваш заказ</SectionTitle>
               
@@ -628,7 +627,7 @@ const CheckoutPage = () => {
         </ContentWrapper>
       </CheckoutContainer>
       
-      {/* МОДАЛЬНОЕ ОКНО УСПЕХА */}
+      {/* МО УСПЕХА */}
       {showSuccessModal && (
         <ModalOverlay onClick={handleSuccessClose}>
           <ModalContent onClick={e => e.stopPropagation()}>

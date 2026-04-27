@@ -1,4 +1,3 @@
-// frontend/src/pages/NewProductsPage.jsx
 // СТРАНИЦА НОВИНОК
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -354,7 +353,7 @@ const ResultCount = styled.div`
   font-size: 0.9rem;
 `;
 
-// МОДАЛЬНОЕ ОКНО ДЛЯ ВЫБОРА РАЗМЕРА
+// МО ДЛЯ ВЫБОРА РАЗМЕРА
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -452,7 +451,7 @@ const ModalCancelButton = styled.button`
   }
 `;
 
-// МОДАЛЬНОЕ ОКНО ИНФОРМАЦИИ
+// МО ИНФОРМАЦИИ
 const InfoModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -856,7 +855,7 @@ const NewProductsPage = () => {
         </ContentWrapper>
       </NewProductsContainer>
       
-      {/* МОДАЛЬНОЕ ОКНО ВЫБОРА РАЗМЕРА */}
+      {/* МО ВЫБОРА РАЗМЕРА */}
       {showSizeModal && selectedProduct && (
         <ModalOverlay onClick={() => setShowSizeModal(false)}>
           <ModalContent onClick={e => e.stopPropagation()}>
@@ -890,7 +889,7 @@ const NewProductsPage = () => {
         </ModalOverlay>
       )}
       
-      {/* МОДАЛЬНОЕ ОКНО ИНФОРМАЦИИ */}
+      {/* МО ИНФОРМАЦИИ */}
       {showInfoModal && (
         <InfoModalOverlay onClick={closeInfoModal}>
           <InfoModalContent onClick={e => e.stopPropagation()}>

@@ -1,4 +1,3 @@
-// frontend/src/pages/LoginPage.jsx
 // СТРАНИЦА ВХОДА И РЕГИСТРАЦИИ
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -307,7 +306,7 @@ const LoginPage = ({ onLogin }) => {
     return !emailError && !passwordError && !confirmError && !firstNameError && !lastNameError && !phoneError;
   };
   
-  // ИСПРАВЛЕННЫЙ handleLogin - ТОЛЬКО email И password
+  // email И password
   const handleLogin = async (e) => {
     e.preventDefault();
     

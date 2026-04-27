@@ -1,9 +1,9 @@
-// КОМПОНЕНТ ШАПКИ САЙТА
+// ШАПКА
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-// КОНТЕЙНЕР ВСЕЙ ШАПКИ
+// ШАПКА
 const HeaderContainer = styled.header`
   background: #5E524A;
   padding: 1rem 2rem;
@@ -26,7 +26,7 @@ const Nav = styled.nav`
   gap: 1rem;
 `;
 
-// ЛОГОТИП "LOON" (ЛЕВАЯ КНОПКА)
+// ЛОГОТИП LOON СЛЕВАЯ КНОПКА
 const Logo = styled(Link)`
   font-size: 2rem;
   font-weight: 100;
@@ -81,7 +81,7 @@ const NavLink = styled(Link)`
   }
 `;
 
-// ИМЯ ПОЛЬЗОВАТЕЛЯ (ПРАВАЯ КНОПКА)
+// ИМЯ ПОЛЬЗОВАТЕЛЯ ПРАВАЯ КНОПКА
 const UserNameButton = styled(Link)`
   font-size: 2rem;
   font-weight: 100;
@@ -98,7 +98,7 @@ const UserNameButton = styled(Link)`
   }
 `;
 
-// КНОПКА "ВОЙТИ" (ПРАВАЯ КНОПКА, КОГДА НЕ АВТОРИЗОВАН)
+// КНОПКА ВОЙТИ (ПРАВАЯ КНОПКА, КОГДА НЕ АВТОРИЗОВАН)
 const LoginButton = styled(Link)`
   font-size: 2rem;
   text-transform: uppercase;

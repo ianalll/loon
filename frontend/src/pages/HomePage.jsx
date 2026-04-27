@@ -1,4 +1,3 @@
-// frontend/src/pages/HomePage.jsx
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 

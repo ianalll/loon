@@ -1,4 +1,3 @@
-// frontend/src/pages/CollectionsPage.jsx
 // СТРАНИЦА ВСЕХ КОЛЛЕКЦИЙ ДЛЯ ПОЛЬЗОВАТЕЛЯ
 import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -510,14 +509,14 @@ const CollectionsPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   
-  // ========== КЭШИРОВАННЫЕ ЗАПРОСЫ ==========
+  // КЭШИРОВАННЫЕ ЗАПРОСЫ
   const { data: products = [], isLoading: productsLoading } = useProducts();
   const { data: collections = [], isLoading: collectionsLoading } = useCollections();
   
   // Получаем размеры для всех товаров (для фильтрации)
   const { data: allSizes = {} } = useAllProductSizes(products);
   
-  // ========== ЛОКАЛЬНЫЕ СОСТОЯНИЯ ==========
+  // ЛОКАЛЬНЫЕ СОСТОЯНИЯ
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -526,21 +525,21 @@ const CollectionsPage = () => {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   
-  // Состояния для модального окна выбора размера
+  // МО выбора размера
   const [showSizeModal, setShowSizeModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [chosenSize, setChosenSize] = useState('');
   
-  // Получаем размеры выбранного товара (только когда модалка открыта)
+  // Получаем размеры выбранного товара
   const { data: selectedProductSizes = [] } = useProductSizes(selectedProduct?.id);
   
-  // Состояния для информационных модальных окон
+  // Информация МО
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [infoTitle, setInfoTitle] = useState('');
   const [infoText, setInfoText] = useState('');
   const [infoCallback, setInfoCallback] = useState(null);
   
-  // ========== АВТООБНОВЛЕНИЕ ПРИ ВОЗВРАЩЕНИИ НА СТРАНИЦУ ==========
+  // АВТООБНОВЛЕНИЕ ПРИ ВОЗВРАЩЕНИИ НА СТРАНИЦУ 
   useEffect(() => {
     const handleFocus = () => {
       queryClient.invalidateQueries(['products']);
@@ -552,7 +551,7 @@ const CollectionsPage = () => {
     return () => window.removeEventListener('focus', handleFocus);
   }, [queryClient]);
   
-  // ========== ОБНОВЛЕНИЕ ПРИ ВИДИМОСТИ СТРАНИЦЫ ==========
+  // ОБНОВЛЕНИЕ ПРИ ВИДИМОСТИ СТРАНИЦЫ
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
@@ -565,7 +564,7 @@ const CollectionsPage = () => {
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [queryClient]);
   
-  // ========== ФИЛЬТРАЦИЯ ==========
+  // ФИЛЬТР
   useEffect(() => {
     filterProducts();
   }, [searchTerm, selectedCategory, selectedCollection, selectedSize, minPrice, maxPrice, products, allSizes]);
@@ -618,7 +617,6 @@ const CollectionsPage = () => {
     setMaxPrice('');
   };
   
-  // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
   const showInfoMessage = (title, text, callback = null) => {
     setInfoTitle(title);
     setInfoText(text);
@@ -687,7 +685,6 @@ const CollectionsPage = () => {
     }
   };
   
-  // ========== ВСПОМОГАТЕЛЬНЫЕ ДАННЫЕ ДЛЯ ФИЛЬТРОВ ==========
   // Собираем все уникальные размеры из всех товаров
   const allAvailableSizes = () => {
     const sizesSet = new Set();
@@ -725,7 +722,6 @@ const CollectionsPage = () => {
     );
   }
   
-  // ========== JSX ==========
   return (
     <>
       <CollectionsContainer>
@@ -833,7 +829,7 @@ const CollectionsPage = () => {
         </ContentWrapper>
       </CollectionsContainer>
       
-      {/* МОДАЛЬНОЕ ОКНО ВЫБОРА РАЗМЕРА */}
+      {/* МО ВЫБОРА РАЗМЕРА */}
       {showSizeModal && selectedProduct && (
         <ModalOverlay onClick={() => setShowSizeModal(false)}>
           <ModalContent onClick={e => e.stopPropagation()}>
@@ -863,7 +859,7 @@ const CollectionsPage = () => {
         </ModalOverlay>
       )}
       
-      {/* МОДАЛЬНОЕ ОКНО ИНФОРМАЦИИ */}
+      {/* МО ИНФОРМАЦИИ */}
       {showInfoModal && (
         <InfoModalOverlay onClick={closeInfoModal}>
           <InfoModalContent onClick={e => e.stopPropagation()}>

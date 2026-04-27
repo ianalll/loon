@@ -1,4 +1,3 @@
-// frontend/src/pages/ProfilePage.jsx
 // СТРАНИЦА ПРОФИЛЯ ПОЛЬЗОВАТЕЛЯ
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -355,7 +354,7 @@ const EmptyOrders = styled.div`
   font-size: 0.9rem;
 `;
 
-// МОДАЛЬНОЕ ОКНО ДЛЯ ПРОСМОТРА ЗАКАЗА
+// МО ДЛЯ ПРОСМОТРА ЗАКАЗА
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -455,7 +454,7 @@ const CancelOrderButton = styled.button`
   }
 `;
 
-// МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ
+// МО ПОДТВЕРЖДЕНИЯ
 const ConfirmModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -884,7 +883,7 @@ const ProfilePage = () => {
         </ContentWrapper>
       </ProfileContainer>
       
-      {/* МОДАЛЬНОЕ ОКНО ПРОСМОТРА ЗАКАЗА */}
+      {/* МО ПРОСМОТРА ЗАКАЗА */}
       {showOrderModal && selectedOrder && (
         <ModalOverlay onClick={() => setShowOrderModal(false)}>
           <ModalContent onClick={e => e.stopPropagation()}>
@@ -957,7 +956,7 @@ const ProfilePage = () => {
         </ModalOverlay>
       )}
       
-      {/* МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ */}
+      {/* МО ПОДТВЕРЖДЕНИЯ */}
       {showConfirmModal && (
         <ConfirmModalOverlay onClick={closeConfirmModal}>
           <ConfirmModalContent onClick={e => e.stopPropagation()}>
@@ -974,7 +973,7 @@ const ProfilePage = () => {
         </ConfirmModalOverlay>
       )}
       
-      {/* МОДАЛЬНОЕ ОКНО ИНФОРМАЦИИ */}
+      {/* МО ИНФОРМАЦИИ */}
       {showInfoModal && (
         <InfoModalOverlay onClick={closeInfoModal}>
           <InfoModalContent onClick={e => e.stopPropagation()}>

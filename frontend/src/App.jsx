@@ -1,4 +1,3 @@
-// frontend/src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';

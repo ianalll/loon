@@ -1,4 +1,3 @@
-// frontend/src/hooks/useProducts.js
 import { useQuery } from '@tanstack/react-query';
 import api from '../api';
 
@@ -38,7 +37,7 @@ export const useCollections = () => {
   });
 };
 
-// Хук для получения размеров конкретного товара (для модалки)
+// Хук для получения размеров конкретного товара
 export const useProductSizes = (productId) => {
   return useQuery({
     queryKey: ['product-sizes', productId],
@@ -48,7 +47,7 @@ export const useProductSizes = (productId) => {
   });
 };
 
-// НОВЫЙ ХУК: для получения размеров всех товаров (для фильтрации)
+// Хук для получения размеров всех товаров (для фильтра)
 export const useAllProductSizes = (products) => {
   return useQuery({
     queryKey: ['all-product-sizes'],

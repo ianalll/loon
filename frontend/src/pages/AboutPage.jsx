@@ -1,4 +1,3 @@
-// frontend/src/pages/AboutPage.jsx
 // СТРАНИЦА "О БРЕНДЕ"
 import styled, { keyframes } from 'styled-components';
 
@@ -23,7 +22,7 @@ const fadeIn = keyframes`
   }
 `;
 
-// ОСНОВНОЙ КОНТЕЙНЕР СТРАНИЦЫ (ГРАДИЕНТНЫЙ ФОН)
+// ОСНОВНОЙ КОНТЕЙНЕР СТРАНИЦЫ (ГРАДИЕНТ ФОН)
 const AboutContainer = styled.div`
   min-height: 100vh;
   background: linear-gradient(135deg, #D0CBC4 0%, #957B69 100%);
@@ -121,11 +120,11 @@ const ContactButtons = styled.div`
   gap: 1rem;
 `;
 
-// СТИЛЬ ДЛЯ КАЖДОЙ КНОПКИ (ЗАЛИТА ЦВЕТОМ ОБВОДКИ)
+// СТИЛЬ ДЛЯ КАЖДОЙ КНОПКИ
 const ContactItem = styled.div`
   display: inline-block;
   padding: 0.8rem 2rem;
-  background: #5E524A;              /* ЗАЛИТО цветом обводки */
+  background: #5E524A;              /* залитл цветом обводки */
   border: 1.5px solid #5E524A;      /* Обводка */
   border-radius: 15px;              /* Закругленные углы */
   color: #D0CBC4;                   /* Цвет текста */

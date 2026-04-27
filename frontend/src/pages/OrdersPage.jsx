@@ -1,4 +1,3 @@
-// frontend/src/pages/OrdersPage.jsx
 // СТРАНИЦА ВСЕХ ЗАКАЗОВ
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -149,7 +148,7 @@ const EmptyMessage = styled.div`
   }
 `;
 
-// МОДАЛЬНОЕ ОКНО ДЛЯ ПРОСМОТРА ЗАКАЗА
+// МО ДЛЯ ПРОСМОТРА ЗАКАЗА
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -335,7 +334,7 @@ const OrdersPage = () => {
         </ContentWrapper>
       </OrdersContainer>
       
-      {/* МОДАЛЬНОЕ ОКНО ПРОСМОТРА ЗАКАЗА */}
+      {/* МО ПРОСМОТРА ЗАКАЗА */}
       {showOrderModal && selectedOrder && (
         <ModalOverlay onClick={() => setShowOrderModal(false)}>
           <ModalContent onClick={e => e.stopPropagation()}>

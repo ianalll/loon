@@ -1,4 +1,3 @@
-// frontend/src/pages/AdminOrdersPage.jsx
 // АДМИН-УПРАВЛЕНИЕ ЗАКАЗАМИ
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -148,7 +147,6 @@ const EmptyMessage = styled.div`
   padding: 2rem;
 `;
 
-// МОДАЛЬНОЕ ОКНО
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -228,7 +226,6 @@ const AdminOrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // Состояния для модального окна
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -320,7 +317,7 @@ const AdminOrdersPage = () => {
       
       if (response.data?.success || response.status === 200) {
         await fetchOrders();
-        // Обновляем кэш заказов и товаров (могли измениться остатки)
+
         refreshOrders();
         refreshProducts();
       }
@@ -390,7 +387,7 @@ const AdminOrdersPage = () => {
                       </StatusBadge>
                     </Td>
                     <Td>
-                      {/* Статус: Ожидает обработки (pending) */}
+                      {/* Статус: Ожидает обработки */}
                       {order.status === 'pending' && (
                         <>
                           <ActionButton $success onClick={() => showConfirmModal('accept', order.id, 'Принять заказ', `Вы уверены, что хотите принять заказ №${order.order_number}?`)}>
@@ -402,7 +399,7 @@ const AdminOrdersPage = () => {
                         </>
                       )}
                       
-                      {/* Статус: В обработке (processing) */}
+                      {/* Статус: В обработке */}
                       {order.status === 'processing' && (
                         <>
                           <ActionButton $success onClick={() => showConfirmModal('ship', order.id, 'Отправить заказ', `Вы уверены, что хотите отправить заказ №${order.order_number}?`)}>
@@ -414,7 +411,7 @@ const AdminOrdersPage = () => {
                         </>
                       )}
                       
-                      {/* Статус: Отправлен (shipped) */}
+                      {/* Статус: Отправлен */}
                       {order.status === 'shipped' && (
                         <>
                           <ActionButton $success onClick={() => showConfirmModal('deliver', order.id, 'Доставить заказ', `Вы уверены, что хотите подтвердить доставку заказа №${order.order_number}?`)}>
@@ -426,7 +423,7 @@ const AdminOrdersPage = () => {
                         </>
                       )}
                       
-                      {/* Статус: Отменён или Отклонён - показываем кнопку Удалить */}
+                      {/* Статус: Отменён или Отклонён и показываем кнопку Удалить */}
                       {(order.status === 'cancelled' || order.status === 'rejected') && (
                         <ActionButton $danger onClick={() => showConfirmModal('delete', order.id, 'Удалить заказ', `Вы уверены, что хотите УДАЛИТЬ заказ №${order.order_number}? Это действие нельзя отменить!`)}>
                           Удалить

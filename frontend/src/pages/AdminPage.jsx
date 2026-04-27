@@ -1,4 +1,3 @@
-// frontend/src/pages/AdminPage.jsx
 // АДМИН-ПАНЕЛЬ УПРАВЛЕНИЯ
 import { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -540,7 +539,7 @@ const CloseButtonPhoto = styled.button`
   }
 `;
 
-// Компонент информационного модального окна
+// МО
 const InfoModal = ({ isOpen, title, text, type = 'info', onClose }) => {
   if (!isOpen) return null;
   
@@ -575,12 +574,12 @@ const AdminPage = () => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // Состояния для поиска и фильтров
+  //  для поиска и фильтров
   const [searchTerm, setSearchTerm] = useState('');
   const [stockFilter, setStockFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
   
-  // Состояния модальных окон - единое управление
+  //  модальные окна
   const [activeModal, setActiveModal] = useState(null);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -589,7 +588,7 @@ const AdminPage = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState('');
   
-  // Сообщения для окна размеров (НЕ ЗАКРЫВАЮТ ОКНО)
+  // Сообщения для окна размеров
   const [sizeMessage, setSizeMessage] = useState('');
   const [sizeMessageType, setSizeMessageType] = useState('success');
   
@@ -607,11 +606,11 @@ const AdminPage = () => {
   });
   const [collectionFormData, setCollectionFormData] = useState({ name: '', description: '' });
   
-  // Функции управления модальными окнами
+  // управления модальными окнами
   const openModal = (modalName) => setActiveModal(modalName);
   const closeModal = () => setActiveModal(null);
   
-  // Показать информационное сообщение
+  // Показать сообщение
   const showInfoMessage = (title, text, type = 'info', callback = null) => {
     setInfoData({ title, text, type, callback });
     openModal('info');
@@ -983,7 +982,7 @@ const AdminPage = () => {
     }
   };
   
-  // Функция для фильтрации товаров
+  // для фильтрации товаров
   const getFilteredProducts = () => {
     let filtered = [...products];
     
@@ -1464,7 +1463,7 @@ const AdminPage = () => {
       <Modal isOpen={activeModal === 'sizes'} onClose={closeModal}>
         <ModalTitle>Размеры товара: {editingProduct?.name}</ModalTitle>
         
-        {/* СООБЩЕНИЕ О РЕЗУЛЬТАТЕ (НЕ ЗАКРЫВАЕТ ОКНО) */}
+        {/* СООБЩЕНИЕ О РЕЗУЛЬТАТЕ */}
         {sizeMessage && (
           <div style={{ 
             color: sizeMessageType === 'success' ? '#2e7d32' : '#c62828', 

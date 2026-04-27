@@ -1,4 +1,3 @@
-// frontend/src/pages/FavoritesPage.jsx
 // СТРАНИЦА ИЗБРАННОГО
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -250,7 +249,7 @@ const ContinueButton = styled.button`
   }
 `;
 
-// МОДАЛЬНОЕ ОКНО ДЛЯ ВЫБОРА РАЗМЕРА
+// МО ДЛЯ ВЫБОРА РАЗМЕРА
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -348,7 +347,7 @@ const ModalCancelButton = styled.button`
   }
 `;
 
-// МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ
+// МО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ
 const ConfirmModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -420,7 +419,7 @@ const ConfirmModalCancelButton = styled.button`
   }
 `;
 
-// МОДАЛЬНОЕ ОКНО ИНФОРМАЦИИ
+// МО ИНФОРМАЦИИ
 const InfoModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -713,7 +712,7 @@ const FavoritesPage = () => {
         </ContentWrapper>
       </FavoritesContainer>
       
-      {/* МОДАЛЬНОЕ ОКНО ВЫБОРА РАЗМЕРА */}
+      {/* МО ВЫБОРА РАЗМЕРА */}
       {showSizeModal && selectedProduct && (
         <ModalOverlay onClick={() => setShowSizeModal(false)}>
           <ModalContent onClick={e => e.stopPropagation()}>
@@ -747,7 +746,7 @@ const FavoritesPage = () => {
         </ModalOverlay>
       )}
       
-      {/* МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ */}
+      {/* МО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ */}
       {showConfirmModal && (
         <ConfirmModalOverlay onClick={closeConfirmModal}>
           <ConfirmModalContent onClick={e => e.stopPropagation()}>
@@ -764,7 +763,7 @@ const FavoritesPage = () => {
         </ConfirmModalOverlay>
       )}
       
-      {/* МОДАЛЬНОЕ ОКНО ИНФОРМАЦИИ */}
+      {/* МО ИНФОРМАЦИИ */}
       {showInfoModal && (
         <InfoModalOverlay onClick={closeInfoModal}>
           <InfoModalContent onClick={e => e.stopPropagation()}>
