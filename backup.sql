@@ -2,10 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict EIbxTzKduUAV1HxinNn2z7zAZ71bqqcAPCw3hFQBsiYhQx0W0Gz1nhSMYlQxher
+\restrict 3qPk1Xjq0kFj4eQItcT1drAWDvDDlyCnzgEj7po8IY07kG4eJKAcuZfAoTorc5V
 
 -- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.3
+
+-- Started on 2026-04-27 15:09:49
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -24,6 +26,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- TOC entry 224 (class 1259 OID 16452)
 -- Name: cart; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -40,6 +43,7 @@ CREATE TABLE public.cart (
 ALTER TABLE public.cart OWNER TO postgres;
 
 --
+-- TOC entry 223 (class 1259 OID 16451)
 -- Name: cart_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -55,6 +59,8 @@ CREATE SEQUENCE public.cart_id_seq
 ALTER SEQUENCE public.cart_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 5018 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: cart_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -62,6 +68,7 @@ ALTER SEQUENCE public.cart_id_seq OWNED BY public.cart.id;
 
 
 --
+-- TOC entry 232 (class 1259 OID 16545)
 -- Name: collections; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -77,6 +84,7 @@ CREATE TABLE public.collections (
 ALTER TABLE public.collections OWNER TO postgres;
 
 --
+-- TOC entry 231 (class 1259 OID 16544)
 -- Name: collections_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -92,6 +100,8 @@ CREATE SEQUENCE public.collections_id_seq
 ALTER SEQUENCE public.collections_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 5019 (class 0 OID 0)
+-- Dependencies: 231
 -- Name: collections_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -99,6 +109,7 @@ ALTER SEQUENCE public.collections_id_seq OWNED BY public.collections.id;
 
 
 --
+-- TOC entry 230 (class 1259 OID 16516)
 -- Name: favorites; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -113,6 +124,7 @@ CREATE TABLE public.favorites (
 ALTER TABLE public.favorites OWNER TO postgres;
 
 --
+-- TOC entry 229 (class 1259 OID 16515)
 -- Name: favorites_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -128,6 +140,8 @@ CREATE SEQUENCE public.favorites_id_seq
 ALTER SEQUENCE public.favorites_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 5020 (class 0 OID 0)
+-- Dependencies: 229
 -- Name: favorites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -135,6 +149,7 @@ ALTER SEQUENCE public.favorites_id_seq OWNED BY public.favorites.id;
 
 
 --
+-- TOC entry 228 (class 1259 OID 16496)
 -- Name: order_items; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -152,6 +167,7 @@ CREATE TABLE public.order_items (
 ALTER TABLE public.order_items OWNER TO postgres;
 
 --
+-- TOC entry 227 (class 1259 OID 16495)
 -- Name: order_items_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -167,6 +183,8 @@ CREATE SEQUENCE public.order_items_id_seq
 ALTER SEQUENCE public.order_items_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 5021 (class 0 OID 0)
+-- Dependencies: 227
 -- Name: order_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -174,6 +192,7 @@ ALTER SEQUENCE public.order_items_id_seq OWNED BY public.order_items.id;
 
 
 --
+-- TOC entry 226 (class 1259 OID 16474)
 -- Name: orders; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -202,6 +221,7 @@ CREATE TABLE public.orders (
 ALTER TABLE public.orders OWNER TO postgres;
 
 --
+-- TOC entry 225 (class 1259 OID 16473)
 -- Name: orders_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -217,6 +237,8 @@ CREATE SEQUENCE public.orders_id_seq
 ALTER SEQUENCE public.orders_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 5022 (class 0 OID 0)
+-- Dependencies: 225
 -- Name: orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -224,6 +246,7 @@ ALTER SEQUENCE public.orders_id_seq OWNED BY public.orders.id;
 
 
 --
+-- TOC entry 234 (class 1259 OID 16566)
 -- Name: product_sizes; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -238,6 +261,7 @@ CREATE TABLE public.product_sizes (
 ALTER TABLE public.product_sizes OWNER TO postgres;
 
 --
+-- TOC entry 233 (class 1259 OID 16565)
 -- Name: product_sizes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -253,6 +277,8 @@ CREATE SEQUENCE public.product_sizes_id_seq
 ALTER SEQUENCE public.product_sizes_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 5023 (class 0 OID 0)
+-- Dependencies: 233
 -- Name: product_sizes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -260,6 +286,7 @@ ALTER SEQUENCE public.product_sizes_id_seq OWNED BY public.product_sizes.id;
 
 
 --
+-- TOC entry 222 (class 1259 OID 16434)
 -- Name: products; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -286,6 +313,7 @@ CREATE TABLE public.products (
 ALTER TABLE public.products OWNER TO postgres;
 
 --
+-- TOC entry 221 (class 1259 OID 16433)
 -- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -301,6 +329,8 @@ CREATE SEQUENCE public.products_id_seq
 ALTER SEQUENCE public.products_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 5024 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -308,6 +338,7 @@ ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
 
 
 --
+-- TOC entry 220 (class 1259 OID 16417)
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -328,6 +359,7 @@ CREATE TABLE public.users (
 ALTER TABLE public.users OWNER TO postgres;
 
 --
+-- TOC entry 219 (class 1259 OID 16416)
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -343,6 +375,8 @@ CREATE SEQUENCE public.users_id_seq
 ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
 
 --
+-- TOC entry 5025 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -350,6 +384,7 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- TOC entry 4794 (class 2604 OID 16455)
 -- Name: cart id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -357,6 +392,7 @@ ALTER TABLE ONLY public.cart ALTER COLUMN id SET DEFAULT nextval('public.cart_id
 
 
 --
+-- TOC entry 4804 (class 2604 OID 16548)
 -- Name: collections id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -364,6 +400,7 @@ ALTER TABLE ONLY public.collections ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- TOC entry 4802 (class 2604 OID 16519)
 -- Name: favorites id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -371,6 +408,7 @@ ALTER TABLE ONLY public.favorites ALTER COLUMN id SET DEFAULT nextval('public.fa
 
 
 --
+-- TOC entry 4801 (class 2604 OID 16499)
 -- Name: order_items id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -378,6 +416,7 @@ ALTER TABLE ONLY public.order_items ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- TOC entry 4797 (class 2604 OID 16477)
 -- Name: orders id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -385,6 +424,7 @@ ALTER TABLE ONLY public.orders ALTER COLUMN id SET DEFAULT nextval('public.order
 
 
 --
+-- TOC entry 4807 (class 2604 OID 16569)
 -- Name: product_sizes id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -392,6 +432,7 @@ ALTER TABLE ONLY public.product_sizes ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- TOC entry 4786 (class 2604 OID 16437)
 -- Name: products id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -399,6 +440,7 @@ ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.pro
 
 
 --
+-- TOC entry 4782 (class 2604 OID 16420)
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -406,6 +448,8 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
+-- TOC entry 5002 (class 0 OID 16452)
+-- Dependencies: 224
 -- Data for Name: cart; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -414,6 +458,8 @@ COPY public.cart (id, user_id, product_id, quantity, added_at, size) FROM stdin;
 
 
 --
+-- TOC entry 5010 (class 0 OID 16545)
+-- Dependencies: 232
 -- Data for Name: collections; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -426,6 +472,8 @@ COPY public.collections (id, name, description, created_at, updated_at) FROM std
 
 
 --
+-- TOC entry 5008 (class 0 OID 16516)
+-- Dependencies: 230
 -- Data for Name: favorites; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -439,6 +487,8 @@ COPY public.favorites (id, user_id, product_id, added_at) FROM stdin;
 
 
 --
+-- TOC entry 5006 (class 0 OID 16496)
+-- Dependencies: 228
 -- Data for Name: order_items; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -452,6 +502,8 @@ COPY public.order_items (id, order_id, product_id, quantity, price_at_time, size
 
 
 --
+-- TOC entry 5004 (class 0 OID 16474)
+-- Dependencies: 226
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -465,6 +517,8 @@ COPY public.orders (id, user_id, order_number, total_amount, status, delivery_ad
 
 
 --
+-- TOC entry 5012 (class 0 OID 16566)
+-- Dependencies: 234
 -- Data for Name: product_sizes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -481,6 +535,8 @@ COPY public.product_sizes (id, product_id, size, quantity) FROM stdin;
 
 
 --
+-- TOC entry 5000 (class 0 OID 16434)
+-- Dependencies: 222
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -497,6 +553,8 @@ COPY public.products (id, name, category, price, color, description, image_url, 
 
 
 --
+-- TOC entry 4998 (class 0 OID 16417)
+-- Dependencies: 220
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -507,6 +565,8 @@ COPY public.users (id, email, password_hash, first_name, last_name, phone, addre
 
 
 --
+-- TOC entry 5026 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: cart_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -514,6 +574,8 @@ SELECT pg_catalog.setval('public.cart_id_seq', 18, true);
 
 
 --
+-- TOC entry 5027 (class 0 OID 0)
+-- Dependencies: 231
 -- Name: collections_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -521,6 +583,8 @@ SELECT pg_catalog.setval('public.collections_id_seq', 5, true);
 
 
 --
+-- TOC entry 5028 (class 0 OID 0)
+-- Dependencies: 229
 -- Name: favorites_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -528,6 +592,8 @@ SELECT pg_catalog.setval('public.favorites_id_seq', 7, true);
 
 
 --
+-- TOC entry 5029 (class 0 OID 0)
+-- Dependencies: 227
 -- Name: order_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -535,6 +601,8 @@ SELECT pg_catalog.setval('public.order_items_id_seq', 10, true);
 
 
 --
+-- TOC entry 5030 (class 0 OID 0)
+-- Dependencies: 225
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -542,6 +610,8 @@ SELECT pg_catalog.setval('public.orders_id_seq', 9, true);
 
 
 --
+-- TOC entry 5031 (class 0 OID 0)
+-- Dependencies: 233
 -- Name: product_sizes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -549,6 +619,8 @@ SELECT pg_catalog.setval('public.product_sizes_id_seq', 33, true);
 
 
 --
+-- TOC entry 5032 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -556,6 +628,8 @@ SELECT pg_catalog.setval('public.products_id_seq', 16, true);
 
 
 --
+-- TOC entry 5033 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -563,6 +637,7 @@ SELECT pg_catalog.setval('public.users_id_seq', 4, true);
 
 
 --
+-- TOC entry 4816 (class 2606 OID 16460)
 -- Name: cart cart_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -571,6 +646,7 @@ ALTER TABLE ONLY public.cart
 
 
 --
+-- TOC entry 4818 (class 2606 OID 16462)
 -- Name: cart cart_user_id_product_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -579,6 +655,7 @@ ALTER TABLE ONLY public.cart
 
 
 --
+-- TOC entry 4830 (class 2606 OID 16558)
 -- Name: collections collections_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -587,6 +664,7 @@ ALTER TABLE ONLY public.collections
 
 
 --
+-- TOC entry 4832 (class 2606 OID 16556)
 -- Name: collections collections_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -595,6 +673,7 @@ ALTER TABLE ONLY public.collections
 
 
 --
+-- TOC entry 4826 (class 2606 OID 16523)
 -- Name: favorites favorites_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -603,6 +682,7 @@ ALTER TABLE ONLY public.favorites
 
 
 --
+-- TOC entry 4828 (class 2606 OID 16525)
 -- Name: favorites favorites_user_id_product_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -611,6 +691,7 @@ ALTER TABLE ONLY public.favorites
 
 
 --
+-- TOC entry 4824 (class 2606 OID 16504)
 -- Name: order_items order_items_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -619,6 +700,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
+-- TOC entry 4820 (class 2606 OID 16489)
 -- Name: orders orders_order_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -627,6 +709,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
+-- TOC entry 4822 (class 2606 OID 16487)
 -- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -635,6 +718,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
+-- TOC entry 4834 (class 2606 OID 16574)
 -- Name: product_sizes product_sizes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -643,6 +727,7 @@ ALTER TABLE ONLY public.product_sizes
 
 
 --
+-- TOC entry 4836 (class 2606 OID 16576)
 -- Name: product_sizes product_sizes_product_id_size_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -651,6 +736,7 @@ ALTER TABLE ONLY public.product_sizes
 
 
 --
+-- TOC entry 4814 (class 2606 OID 16450)
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -659,6 +745,7 @@ ALTER TABLE ONLY public.products
 
 
 --
+-- TOC entry 4838 (class 2606 OID 16604)
 -- Name: product_sizes unique_product_size; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -667,6 +754,7 @@ ALTER TABLE ONLY public.product_sizes
 
 
 --
+-- TOC entry 4810 (class 2606 OID 16432)
 -- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -675,6 +763,7 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- TOC entry 4812 (class 2606 OID 16430)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -683,6 +772,7 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- TOC entry 4841 (class 2606 OID 16468)
 -- Name: cart cart_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -691,6 +781,7 @@ ALTER TABLE ONLY public.cart
 
 
 --
+-- TOC entry 4842 (class 2606 OID 16463)
 -- Name: cart cart_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -699,6 +790,7 @@ ALTER TABLE ONLY public.cart
 
 
 --
+-- TOC entry 4846 (class 2606 OID 16531)
 -- Name: favorites favorites_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -707,6 +799,7 @@ ALTER TABLE ONLY public.favorites
 
 
 --
+-- TOC entry 4847 (class 2606 OID 16526)
 -- Name: favorites favorites_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -715,6 +808,7 @@ ALTER TABLE ONLY public.favorites
 
 
 --
+-- TOC entry 4848 (class 2606 OID 16598)
 -- Name: product_sizes fk_product_sizes_product; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -723,6 +817,7 @@ ALTER TABLE ONLY public.product_sizes
 
 
 --
+-- TOC entry 4844 (class 2606 OID 16505)
 -- Name: order_items order_items_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -731,6 +826,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
+-- TOC entry 4845 (class 2606 OID 16510)
 -- Name: order_items order_items_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -739,6 +835,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
+-- TOC entry 4843 (class 2606 OID 16490)
 -- Name: orders orders_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -747,6 +844,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
+-- TOC entry 4849 (class 2606 OID 16577)
 -- Name: product_sizes product_sizes_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -755,6 +853,7 @@ ALTER TABLE ONLY public.product_sizes
 
 
 --
+-- TOC entry 4839 (class 2606 OID 16559)
 -- Name: products products_collection_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -763,6 +862,7 @@ ALTER TABLE ONLY public.products
 
 
 --
+-- TOC entry 4840 (class 2606 OID 16538)
 -- Name: products products_created_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -770,9 +870,11 @@ ALTER TABLE ONLY public.products
     ADD CONSTRAINT products_created_by_fkey FOREIGN KEY (created_by) REFERENCES public.users(id);
 
 
+-- Completed on 2026-04-27 15:09:49
+
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict EIbxTzKduUAV1HxinNn2z7zAZ71bqqcAPCw3hFQBsiYhQx0W0Gz1nhSMYlQxher
+\unrestrict 3qPk1Xjq0kFj4eQItcT1drAWDvDDlyCnzgEj7po8IY07kG4eJKAcuZfAoTorc5V
 
