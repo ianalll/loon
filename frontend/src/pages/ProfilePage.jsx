@@ -664,11 +664,11 @@ const ProfilePage = () => {
       setOrders(response.data);
     } catch (error) {
       console.error('Ошибка загрузки заказов:', error);
-      showInfoMessage('Ошибка', 'Не удалось загрузить заказы');
+
     } finally {
       setLoading(false);
     }
-  };
+};
   
   const fetchOrderDetails = async (orderId) => {
     const token = localStorage.getItem('token');
