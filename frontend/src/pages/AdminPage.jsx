@@ -606,7 +606,7 @@ const AdminPage = () => {
   });
   const [collectionFormData, setCollectionFormData] = useState({ name: '', description: '' });
   
-  // управления модальными окнами
+  // управления мо
   const openModal = (modalName) => setActiveModal(modalName);
   const closeModal = () => setActiveModal(null);
   
@@ -1375,7 +1375,7 @@ const AdminPage = () => {
         </div>
       </Modal>
       
-      {/* МОДАЛЬНОЕ ОКНО РЕДАКТИРОВАНИЯ/ДОБАВЛЕНИЯ ТОВАРА */}
+      {/* МО РЕДАКТИРОВАНИЯ/ДОБАВЛЕНИЯ ТОВАРА */}
       <Modal isOpen={activeModal === 'product'} onClose={closeModal}>
         <ModalTitle>{editingProduct ? 'Редактирование товара' : 'Новый товар'}</ModalTitle>
         
@@ -1399,6 +1399,11 @@ const AdminPage = () => {
           placeholder="Цвет" 
           value={formData.color} 
           onChange={e => setFormData({...formData, color: e.target.value})} 
+        />
+        <Input 
+          placeholder="Описание" 
+          value={formData.description} 
+          onChange={e => setFormData({...formData, description: e.target.value})} 
         />
         
         <Select 
@@ -1531,26 +1536,7 @@ const AdminPage = () => {
         </div>
       </Modal>
       
-      {/* МОДАЛЬНОЕ ОКНО ДОБАВЛЕНИЯ/РЕДАКТИРОВАНИЯ КОЛЛЕКЦИИ */}
-      <Modal isOpen={activeModal === 'collection'} onClose={closeModal}>
-        <ModalTitle>{editingCollection ? 'Редактирование коллекции' : 'Новая коллекция'}</ModalTitle>
-        
-        <Input 
-          placeholder="Название коллекции" 
-          value={collectionFormData.name} 
-          onChange={e => setCollectionFormData({...collectionFormData, name: e.target.value})} 
-        />
-        <Input 
-          placeholder="Описание (необязательно)" 
-          value={collectionFormData.description} 
-          onChange={e => setCollectionFormData({...collectionFormData, description: e.target.value})} 
-        />
-        
-        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-          <ModalButton onClick={handleSaveCollection}>Сохранить</ModalButton>
-          <ModalButtonCancel onClick={closeModal}>Отмена</ModalButtonCancel>
-        </div>
-      </Modal>
+
     </AdminContainer>
   );
 };

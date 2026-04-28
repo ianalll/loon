@@ -15,6 +15,7 @@ import FavoritesPage from './pages/FavoritesPage';
 import CheckoutPage from './pages/CheckoutPage';
 import OrdersPage from './pages/OrdersPage';
 import AdminOrdersPage from './pages/AdminOrdersPage';
+import ProductPage from './pages/ProductPage';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -40,6 +41,7 @@ function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/admin/orders" element={<AdminOrdersPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
         </Routes>
       </AppContainer>
     </Router>

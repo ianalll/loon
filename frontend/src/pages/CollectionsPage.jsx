@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useProducts, useCollections, useProductSizes, useAllProductSizes } from '../hooks/useProducts';
+import { Link } from 'react-router-dom';
 import api from '../api';
 
 const fadeIn = keyframes`
@@ -789,7 +790,7 @@ const CollectionsPage = () => {
                   const hasStock = sizes.some(s => s.quantity > 0);
                   
                   return (
-                    <ProductCard key={product.id}>
+                    <ProductCard as={Link} to={`/product/${product.id}`}>
                       <ProductImage $image={product.image_url}>
                         <BadgeContainer>
                           {product.is_new && <NewBadge>NEW</NewBadge>}

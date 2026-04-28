@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const fadeIn = keyframes`
@@ -668,7 +669,7 @@ const FavoritesPage = () => {
               const hasStock = sizes.some(s => s.quantity > 0);
               
               return (
-                <ProductCard key={item.id}>
+                <ProductCard as={Link} to={`/product/${product.id}`}>
                   <ProductImage $image={item.image_url}>
                     <BadgeContainer>
                       {item.is_new && <NewBadge>NEW</NewBadge>}

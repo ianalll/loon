@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const fadeIn = keyframes`
@@ -809,7 +810,7 @@ const PromotionsPage = () => {
                   const hasStock = sizes.some(s => s.quantity > 0);
                   
                   return (
-                    <ProductCard key={product.id}>
+                    <ProductCard as={Link} to={`/product/${product.id}`}>
                       <ProductImage $image={product.image_url}>
                         <BadgeContainer>
                           {product.is_new && <NewBadge>NEW</NewBadge>}
