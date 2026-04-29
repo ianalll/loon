@@ -364,31 +364,54 @@ const ProductPage = () => {
   const hasStock = productSizes.some(s => s.quantity > 0);
   
   const addToCart = async () => {
-    if (!chosenSize) {
-      showInfoMessage('Выберите размер', 'Пожалуйста, выберите размер товара');
+  if (!chosenSize) {
+    showInfoMessage('Выберите размер', 'Пожалуйста, выберите размер товара');
+    return;
+  }
+  
+  // Находим выбранный размер и его остаток
+  const selectedSizeObj = productSizes.find(s => s.size === chosenSize);
+  if (!selectedSizeObj || selectedSizeObj.quantity === 0) {
+    showInfoMessage('Нет в наличии', 'Этого размера нет в наличии');
+    return;
+  }
+  
+  const token = localStorage.getItem('token');
+  if (!token) {
+    showInfoMessage('Требуется авторизация', 'Войдите в аккаунт, чтобы добавить товар в корзину', () => {
+      navigate('/login');
+    });
+    return;
+  }
+  
+  // Проверяем, сколько уже в корзине
+  try {
+    const cartResponse = await api.get('/cart');
+    const existingInCart = cartResponse.data.find(
+      item => item.product_id === parseInt(id) && item.size === chosenSize
+    );
+    const currentQuantity = existingInCart ? existingInCart.quantity : 0;
+    
+    if (currentQuantity + 1 > selectedSizeObj.quantity) {
+      showInfoMessage('Ошибка', `Нельзя добавить больше ${selectedSizeObj.quantity} шт. (доступно)`);
       return;
     }
-    
-    const token = localStorage.getItem('token');
-    if (!token) {
-      showInfoMessage('Требуется авторизация', 'Войдите в аккаунт, чтобы добавить товар в корзину', () => {
-        navigate('/login');
-      });
-      return;
-    }
-    
-    try {
-      await api.post('/cart', { 
-        product_id: parseInt(id), 
-        quantity: 1, 
-        size: chosenSize 
-      });
-      showInfoMessage('Товар добавлен', `"${product?.name}" добавлен в корзину (размер ${chosenSize})`);
-    } catch (error) {
-      console.error('Ошибка:', error);
-      showInfoMessage('Ошибка', 'Ошибка при добавлении в корзину');
-    }
-  };
+  } catch (err) {
+    console.error('Ошибка проверки корзины:', err);
+  }
+  
+  try {
+    await api.post('/cart', { 
+      product_id: parseInt(id), 
+      quantity: 1, 
+      size: chosenSize 
+    });
+    showInfoMessage('Товар добавлен', `"${product?.name}" добавлен в корзину (размер ${chosenSize})`);
+  } catch (error) {
+    console.error('Ошибка:', error);
+    showInfoMessage('Ошибка', 'Ошибка при добавлении в корзину');
+  }
+};
   
   const addToFavorites = async () => {
     const token = localStorage.getItem('token');

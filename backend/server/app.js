@@ -566,35 +566,49 @@ app.delete('/api/admin/collections/:id', authenticateToken, authenticateAdmin, a
 
 // КОРЗИНА
 
-app.get('/api/cart', authenticateToken, async (req, res) => {
-  try {
-    const result = await pool.query(
-      'SELECT c.*, p.name, p.price, p.image_url FROM cart c JOIN products p ON c.product_id = p.id WHERE c.user_id = $1 AND p.is_active = true',
-      [req.user.id]
-    );
-    res.json(result.rows);
-  } catch (error) {
-    console.error('Ошибка получения корзины:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
 app.post('/api/cart', authenticateToken, async (req, res) => {
   const { product_id, quantity, size } = req.body;
   
+  console.log('Добавление в корзину:', { product_id, size, quantity });
+  
+  // Проверяем остаток на складе
+  const stockResult = await pool.query(
+    'SELECT quantity FROM product_sizes WHERE product_id = $1 AND size = $2',
+    [product_id, size]
+  );
+  
+  const available = stockResult.rows[0]?.quantity || 0;
+  
+  if (quantity > available) {
+    return res.status(400).json({ 
+      error: `Недостаточно товара на складе. Доступно: ${available} шт.` 
+    });
+  }
+  
   try {
+    // Проверяем, есть ли уже этот товар С ТАКИМ ЖЕ РАЗМЕРОМ
     const existing = await pool.query(
       'SELECT * FROM cart WHERE user_id = $1 AND product_id = $2 AND size = $3',
       [req.user.id, product_id, size]
     );
     
     if (existing.rows.length > 0) {
+      // Если есть — увеличиваем количество
+      const newQuantity = existing.rows[0].quantity + quantity;
+      
+      if (newQuantity > available) {
+        return res.status(400).json({ 
+          error: `Нельзя добавить больше ${available} шт. (доступно на складе)` 
+        });
+      }
+      
       const result = await pool.query(
-        'UPDATE cart SET quantity = quantity + $1 WHERE user_id = $2 AND product_id = $3 AND size = $4 RETURNING *',
-        [quantity, req.user.id, product_id, size]
+        'UPDATE cart SET quantity = $1 WHERE user_id = $2 AND product_id = $3 AND size = $4 RETURNING *',
+        [newQuantity, req.user.id, product_id, size]
       );
       return res.json(result.rows[0]);
     } else {
+      // Если нет — создаём НОВУЮ запись (для другого размера)
       const result = await pool.query(
         'INSERT INTO cart (user_id, product_id, quantity, size) VALUES ($1, $2, $3, $4) RETURNING *',
         [req.user.id, product_id, quantity, size]
@@ -607,6 +621,23 @@ app.post('/api/cart', authenticateToken, async (req, res) => {
   }
 });
 
+app.get('/api/cart', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT c.*, p.name, p.price, p.image_url, 
+        (SELECT quantity FROM product_sizes ps WHERE ps.product_id = p.id AND ps.size = c.size) as max_available
+       FROM cart c 
+       JOIN products p ON c.product_id = p.id 
+       WHERE c.user_id = $1 AND p.is_active = true`,
+      [req.user.id]
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Ошибка получения корзины:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.put('/api/cart/:id', authenticateToken, async (req, res) => {
   const { quantity } = req.body;
   
@@ -615,13 +646,37 @@ app.put('/api/cart/:id', authenticateToken, async (req, res) => {
   }
   
   try {
+    // Получаем информацию о товаре в корзине
+    const cartItem = await pool.query(
+      `SELECT c.product_id, c.size, c.quantity as current_quantity
+       FROM cart c 
+       WHERE c.id = $1 AND c.user_id = $2`,
+      [req.params.id, req.user.id]
+    );
+    
+    if (cartItem.rows.length === 0) {
+      return res.status(404).json({ error: 'Товар в корзине не найден' });
+    }
+    
+    // Получаем остаток на складе
+    const stock = await pool.query(
+      'SELECT quantity FROM product_sizes WHERE product_id = $1 AND size = $2',
+      [cartItem.rows[0].product_id, cartItem.rows[0].size]
+    );
+    
+    const available = stock.rows[0]?.quantity || 0;
+    
+    if (quantity > available) {
+      return res.status(400).json({ 
+        error: `Недостаточно товара на складе. Доступно: ${available} шт.` 
+      });
+    }
+    
     const result = await pool.query(
       'UPDATE cart SET quantity = $1 WHERE id = $2 AND user_id = $3 RETURNING *',
       [quantity, req.params.id, req.user.id]
     );
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Товар в корзине не найден' });
-    }
+    
     res.json(result.rows[0]);
   } catch (error) {
     console.error('Ошибка обновления корзины:', error);

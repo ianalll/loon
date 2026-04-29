@@ -354,7 +354,7 @@ const EmptyOrders = styled.div`
   font-size: 0.9rem;
 `;
 
-// МО ДЛЯ ПРОСМОТРА ЗАКАЗА
+// МОДАЛЬНОЕ ОКНО ДЛЯ ПРОСМОТРА ЗАКАЗА
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -454,7 +454,7 @@ const CancelOrderButton = styled.button`
   }
 `;
 
-// МО ПОДТВЕРЖДЕНИЯ
+// МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ
 const ConfirmModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -603,6 +603,9 @@ const ProfilePage = () => {
   const [infoText, setInfoText] = useState('');
   const [infoCallback, setInfoCallback] = useState(null);
   
+  // Регулярное выражение для имени (только буквы, пробелы, дефисы)
+  const nameRegex = /^[A-Za-zА-Яа-яЁё\s\-]*$/;
+  
   // Автообновление заказов при возвращении на страницу
   useEffect(() => {
     const handleFocus = () => {
@@ -664,11 +667,10 @@ const ProfilePage = () => {
       setOrders(response.data);
     } catch (error) {
       console.error('Ошибка загрузки заказов:', error);
-
     } finally {
       setLoading(false);
     }
-};
+  };
   
   const fetchOrderDetails = async (orderId) => {
     const token = localStorage.getItem('token');
@@ -717,7 +719,44 @@ const ProfilePage = () => {
     setIsEditing(true);
   };
   
+  // Обработчик изменения имени с фильтрацией
+  const handleFirstNameChange = (e) => {
+    const value = e.target.value;
+    if (nameRegex.test(value)) {
+      setEditFirstName(value);
+    }
+  };
+  
+  // Обработчик изменения фамилии с фильтрацией
+  const handleLastNameChange = (e) => {
+    const value = e.target.value;
+    if (nameRegex.test(value)) {
+      setEditLastName(value);
+    }
+  };
+  
   const handleSaveEdit = async () => {
+    // Валидация имени и фамилии перед сохранением
+    const validateNameOnlyLetters = (name, fieldName) => {
+      if (name && !/^[A-Za-zА-Яа-яЁё\s\-]+$/.test(name)) {
+        return `${fieldName} должно содержать только буквы`;
+      }
+      return '';
+    };
+    
+    const firstNameError = validateNameOnlyLetters(editFirstName, 'Имя');
+    const lastNameError = validateNameOnlyLetters(editLastName, 'Фамилия');
+    
+    if (firstNameError) {
+      showInfoMessage('Ошибка', firstNameError);
+      return;
+    }
+    
+    if (lastNameError) {
+      showInfoMessage('Ошибка', lastNameError);
+      return;
+    }
+    
     const token = localStorage.getItem('token');
     try {
       await axios.put('http://localhost:5000/api/user/profile', 
@@ -786,7 +825,8 @@ const ProfilePage = () => {
                   <EditInput 
                     type="text"
                     value={editFirstName}
-                    onChange={(e) => setEditFirstName(e.target.value)}
+                    onChange={handleFirstNameChange}
+                    placeholder="Имя"
                   />
                 ) : (
                   <InfoValue>{user?.first_name || '—'}</InfoValue>
@@ -799,7 +839,8 @@ const ProfilePage = () => {
                   <EditInput 
                     type="text"
                     value={editLastName}
-                    onChange={(e) => setEditLastName(e.target.value)}
+                    onChange={handleLastNameChange}
+                    placeholder="Фамилия"
                   />
                 ) : (
                   <InfoValue>{user?.last_name || '—'}</InfoValue>
@@ -883,7 +924,7 @@ const ProfilePage = () => {
         </ContentWrapper>
       </ProfileContainer>
       
-      {/* МО ПРОСМОТРА ЗАКАЗА */}
+      {/* МОДАЛЬНОЕ ОКНО ПРОСМОТРА ЗАКАЗА */}
       {showOrderModal && selectedOrder && (
         <ModalOverlay onClick={() => setShowOrderModal(false)}>
           <ModalContent onClick={e => e.stopPropagation()}>
@@ -956,7 +997,7 @@ const ProfilePage = () => {
         </ModalOverlay>
       )}
       
-      {/* МО ПОДТВЕРЖДЕНИЯ */}
+      {/* МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ */}
       {showConfirmModal && (
         <ConfirmModalOverlay onClick={closeConfirmModal}>
           <ConfirmModalContent onClick={e => e.stopPropagation()}>
@@ -973,7 +1014,7 @@ const ProfilePage = () => {
         </ConfirmModalOverlay>
       )}
       
-      {/* МО ИНФОРМАЦИИ */}
+      {/* МОДАЛЬНОЕ ОКНО ИНФОРМАЦИИ */}
       {showInfoModal && (
         <InfoModalOverlay onClick={closeInfoModal}>
           <InfoModalContent onClick={e => e.stopPropagation()}>

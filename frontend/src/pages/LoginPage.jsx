@@ -196,6 +196,10 @@ const LoginPage = ({ onLogin }) => {
     phone: ''
   });
   
+  // =====================================================
+  // ВАЛИДАЦИЯ
+  // =====================================================
+  
   // Валидация email
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -211,26 +215,70 @@ const LoginPage = ({ onLogin }) => {
     return '';
   };
   
-  // Валидация имени
+  // Валидация имени (только буквы, пробелы, дефисы)
   const validateName = (name, fieldName) => {
     if (!name.trim()) return `Введите ${fieldName}`;
-    return '';
-  };
-  
-  // Валидация телефона
-  const validatePhone = (phone) => {
-    if (phone && !/^[\d\s\+\(\)\-]{10,}$/.test(phone)) {
-      return 'Введите корректный номер телефона';
+    const nameRegex = /^[A-Za-zА-Яа-яЁё\s\-]+$/;
+    if (!nameRegex.test(name.trim())) {
+      return `${fieldName} должно содержать только буквы`;
     }
     return '';
   };
+  
+  // Валидация телефона (+7 или 8 + 10 цифр = всего 11 цифр)
+  const validatePhone = (phone) => {
+    if (!phone) return ''; // телефон необязательный
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length === 11 && (cleanPhone[0] === '7' || cleanPhone[0] === '8')) {
+      return '';
+    }
+    return 'Введите номер в формате +7XXXXXXXXXX или 8XXXXXXXXXX';
+  };
+  
+  // Форматирование телефона при вводе
+  const formatPhone = (value) => {
+    const clean = value.replace(/\D/g, '');
+    if (clean.length === 0) return '';
+    
+    let formatted = '';
+    if (clean[0] === '8') {
+      formatted = '8';
+    } else if (clean[0] === '7') {
+      formatted = '+7';
+    } else {
+      formatted = clean;
+    }
+    
+    const phoneDigits = clean.slice(1);
+    if (phoneDigits.length >= 1) {
+      if (clean[0] === '7') {
+        formatted += ` ${phoneDigits.slice(0, 3)}`;
+      } else if (clean[0] === '8') {
+        formatted += ` ${phoneDigits.slice(0, 3)}`;
+      }
+    }
+    if (phoneDigits.length >= 4) {
+      formatted += ` ${phoneDigits.slice(3, 6)}`;
+    }
+    if (phoneDigits.length >= 7) {
+      formatted += `-${phoneDigits.slice(6, 8)}`;
+    }
+    if (phoneDigits.length >= 9) {
+      formatted += `-${phoneDigits.slice(8, 10)}`;
+    }
+    
+    return formatted.trim();
+  };
+  
+  // =====================================================
+  // ОБРАБОТЧИКИ
+  // =====================================================
   
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
     setError('');
     
-    // Валидация в реальном времени
     if (name === 'email') {
       setLoginErrors({ ...loginErrors, email: validateEmail(value) });
     }
@@ -241,11 +289,32 @@ const LoginPage = ({ onLogin }) => {
   
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
+    
+    // Обработка телефона с форматированием
+    if (name === 'phone') {
+      const formatted = formatPhone(value);
+      setRegisterData({ ...registerData, [name]: formatted });
+      setError('');
+      setSuccess('');
+      
+      const newErrors = { ...registerErrors };
+      newErrors.phone = validatePhone(formatted);
+      setRegisterErrors(newErrors);
+      return;
+    }
+    
+    // Обработка имени и фамилии (запрет цифр)
+    if (name === 'first_name' || name === 'last_name') {
+      const nameRegex = /^[A-Za-zА-Яа-яЁё\s\-]*$/;
+      if (!nameRegex.test(value)) {
+        return; // не пропускаем цифры и спецсимволы
+      }
+    }
+    
     setRegisterData({ ...registerData, [name]: value });
     setError('');
     setSuccess('');
     
-    // Валидация в реальном времени
     const newErrors = { ...registerErrors };
     
     if (name === 'email') {
@@ -253,7 +322,6 @@ const LoginPage = ({ onLogin }) => {
     }
     if (name === 'password') {
       newErrors.password = validatePassword(value);
-      // Проверяем подтверждение пароля, если оно уже заполнено
       if (registerData.confirmPassword) {
         newErrors.confirmPassword = value !== registerData.confirmPassword ? 'Пароли не совпадают' : '';
       }
@@ -266,9 +334,6 @@ const LoginPage = ({ onLogin }) => {
     }
     if (name === 'last_name') {
       newErrors.last_name = validateName(value, 'фамилию');
-    }
-    if (name === 'phone') {
-      newErrors.phone = validatePhone(value);
     }
     
     setRegisterErrors(newErrors);
@@ -306,7 +371,6 @@ const LoginPage = ({ onLogin }) => {
     return !emailError && !passwordError && !confirmError && !firstNameError && !lastNameError && !phoneError;
   };
   
-  // email И password
   const handleLogin = async (e) => {
     e.preventDefault();
     
@@ -349,13 +413,16 @@ const LoginPage = ({ onLogin }) => {
     setError('');
     setSuccess('');
     
+    // Очищаем телефон от пробелов и скобок перед отправкой
+    const cleanPhone = registerData.phone.replace(/[\s\-\(\)]/g, '');
+    
     try {
       const response = await axios.post('http://localhost:5000/api/register', {
         email: registerData.email,
         password: registerData.password,
         first_name: registerData.first_name,
         last_name: registerData.last_name,
-        phone: registerData.phone
+        phone: cleanPhone
       });
       
       setSuccess('Регистрация успешна! Теперь вы можете войти');
@@ -509,7 +576,7 @@ const LoginPage = ({ onLogin }) => {
                 name="phone"
                 value={registerData.phone}
                 onChange={handleRegisterChange}
-                placeholder="+7 (999) 123-45-67"
+                placeholder="+7 999 123-45-67"
                 hasError={registerErrors.phone}
               />
               {registerErrors.phone && <ErrorText>{registerErrors.phone}</ErrorText>}

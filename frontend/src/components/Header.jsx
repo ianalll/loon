@@ -1,4 +1,4 @@
-// ШАПКА
+// КОМПОНЕНТ ШАПКИ САЙТА
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -26,7 +26,7 @@ const Nav = styled.nav`
   gap: 1rem;
 `;
 
-// ЛОГОТИП LOON СЛЕВАЯ КНОПКА
+// ЛОГОТИП LOON (ЛЕВАЯ КНОПКА)
 const Logo = styled(Link)`
   font-size: 2rem;
   font-weight: 100;
@@ -81,15 +81,54 @@ const NavLink = styled(Link)`
   }
 `;
 
-// ИМЯ ПОЛЬЗОВАТЕЛЯ ПРАВАЯ КНОПКА
+// ПРАВЫЙ КОНТЕЙНЕР (кнопки + имя пользователя)
+const RightContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+`;
+
+// КНОПКИ ИКОНОК (КОРЗИНА, ИЗБРАННОЕ)
+const IconButton = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #EDE7DE;
+  transition: all 0.3s ease;
+  position: relative;
+  
+  &:hover {
+    transform: scale(1.1);
+    color: #D0CBC4;
+  }
+`;
+
+// СЧЁТЧИК ТОВАРОВ В КОРЗИНЕ
+const CartBadge = styled.span`
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background: #c62828;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: bold;
+  padding: 0.1rem 0.4rem;
+  border-radius: 50%;
+  min-width: 18px;
+  text-align: center;
+`;
+
+// ИМЯ ПОЛЬЗОВАТЕЛЯ
 const UserNameButton = styled(Link)`
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-weight: 100;
   font-family: 'BlackerSans Pro', sans-serif;
   color: #EDE7DE;
   transition: all 0.3s ease;
   cursor: pointer;
   text-decoration: none;
+  white-space: nowrap;
   
   &:hover {
     transform: scale(1.05);
@@ -98,9 +137,9 @@ const UserNameButton = styled(Link)`
   }
 `;
 
-// КНОПКА ВОЙТИ (ПРАВАЯ КНОПКА, КОГДА НЕ АВТОРИЗОВАН)
+// КНОПКА ВОЙТИ
 const LoginButton = styled(Link)`
-  font-size: 2rem;
+  font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 100;
@@ -109,6 +148,7 @@ const LoginButton = styled(Link)`
   transition: all 0.3s ease;
   cursor: pointer;
   text-decoration: none;
+  white-space: nowrap;
   
   &:hover {
     transform: scale(1.05);
@@ -122,7 +162,9 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
   
+  // Получаем данные пользователя
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -130,6 +172,30 @@ const Header = () => {
     } else {
       setUser(null);
     }
+  }, [location.pathname]);
+  
+  // Получаем количество товаров в корзине
+  useEffect(() => {
+    const fetchCartCount = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setCartCount(0);
+        return;
+      }
+      
+      try {
+        const response = await fetch('http://localhost:5000/api/cart', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const cart = await response.json();
+        const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        setCartCount(total);
+      } catch (error) {
+        console.error('Ошибка загрузки корзины:', error);
+      }
+    };
+    
+    fetchCartCount();
   }, [location.pathname]);
   
   const handleLogout = () => {
@@ -176,14 +242,29 @@ const Header = () => {
           </NavLink>
         </NavLinks>
         
-        {/* ПРАВАЯ КНОПКА - ИМЯ ПОЛЬЗОВАТЕЛЯ ИЛИ ВОЙТИ */}
-        {user ? (
-          <UserNameButton to="/profile">
-            {user.first_name || user.email?.split('@')[0] || 'ПРОФИЛЬ'}
-          </UserNameButton>
-        ) : (
-          <LoginButton to="/login">ВОЙТИ</LoginButton>
-        )}
+        {/* ПРАВАЯ ЧАСТЬ - ИКОНКИ + ИМЯ ПОЛЬЗОВАТЕЛЯ */}
+        <RightContainer>
+          {user && (
+            <>
+              <IconButton to="/favorites">
+                ♡
+              </IconButton>
+              
+              <IconButton to="/cart">
+                🛒
+                {cartCount > 0 && <CartBadge>{cartCount > 99 ? '99+' : cartCount}</CartBadge>}
+              </IconButton>
+            </>
+          )}
+          
+          {user ? (
+            <UserNameButton to="/profile">
+              {user.first_name || user.email?.split('@')[0] || 'ПРОФИЛЬ'}
+            </UserNameButton>
+          ) : (
+            <LoginButton to="/login">ВОЙТИ</LoginButton>
+          )}
+        </RightContainer>
       </Nav>
     </HeaderContainer>
   );

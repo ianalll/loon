@@ -368,27 +368,47 @@ const CartPage = () => {
     setConfirmAction(null);
   };
   
-  const updateQuantity = async (cartId, productId, newQuantity) => {
-    if (newQuantity < 1) {
-      removeFromCart(cartId);
-      return;
-    }
+  const updateQuantity = async (cartId, productId, newQuantity, maxAvailable) => {
+  if (newQuantity < 1) {
+    removeFromCart(cartId);
+    return;
+  }
+  
+  // Проверяем, не превышает ли количество доступный остаток
+  if (maxAvailable !== undefined && newQuantity > maxAvailable) {
+    showInfoMessage('Ошибка', `Вы не можете добавить больше ${maxAvailable} шт. этого товара. Осталось всего ${maxAvailable} шт.`);
     
-    setUpdating(true);
-    const token = localStorage.getItem('token');
-    try {
-      await axios.put(`http://localhost:5000/api/cart/${cartId}`, 
-        { quantity: newQuantity },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      await fetchCart();
-    } catch (error) {
-      console.error('Ошибка обновления:', error);
-      showInfoMessage('Ошибка', 'Ошибка при обновлении количества');
-    } finally {
-      setUpdating(false);
+    // Сбрасываем значение в инпуте до текущего количества
+    const input = document.getElementById(`quantity-${cartId}`);
+    if (input) {
+      const currentItem = cart.find(item => item.id === cartId);
+      input.value = currentItem?.quantity || 1;
     }
-  };
+    return;
+  }
+  
+  setUpdating(true);
+  const token = localStorage.getItem('token');
+  try {
+    await axios.put(`http://localhost:5000/api/cart/${cartId}`, 
+      { quantity: newQuantity },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    await fetchCart();
+  } catch (error) {
+    console.error('Ошибка обновления:', error);
+    // Если ошибка от сервера о недостатке товара
+    if (error.response?.data?.error) {
+      showInfoMessage('Ошибка', error.response.data.error);
+    } else {
+      showInfoMessage('Ошибка', 'Ошибка при обновлении количества');
+    }
+    // Обновляем корзину, чтобы сбросить некорректное значение
+    await fetchCart();
+  } finally {
+    setUpdating(false);
+  }
+};
   
   const removeFromCart = async (cartId) => {
     showConfirmMessage('Удалить товар', 'Вы уверены, что хотите удалить этот товар из корзины?', async () => {
@@ -466,10 +486,12 @@ const CartPage = () => {
                   <Td>{item.price.toLocaleString()} ₽</Td>
                   <Td>
                     <QuantityInput 
+                      id={`quantity-${item.id}`}
                       type="number"
                       min="1"
+                      max={item.max_available}
                       value={item.quantity}
-                      onChange={(e) => updateQuantity(item.id, item.product_id, parseInt(e.target.value) || 1)}
+                      onChange={(e) => updateQuantity(item.id, item.product_id, parseInt(e.target.value) || 1, item.max_available)}
                       disabled={updating}
                     />
                   </Td>

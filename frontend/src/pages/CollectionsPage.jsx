@@ -638,35 +638,44 @@ const CollectionsPage = () => {
   };
   
   const addToCart = async () => {
-    if (!chosenSize) {
-      showInfoMessage('Выберите размер', 'Пожалуйста, выберите размер товара');
-      return;
-    }
+  if (!chosenSize) {
+    showInfoMessage('Выберите размер', 'Пожалуйста, выберите размер товара');
+    return;
+  }
+  
+  const token = localStorage.getItem('token');
+  if (!token) {
+    showInfoMessage('Требуется авторизация', 'Войдите в аккаунт, чтобы добавить товар в корзину', () => {
+      navigate('/login');
+    });
+    return;
+  }
+  
+  // Добавляем отладку
+  console.log('Добавляем в корзину:', {
+    product_id: selectedProduct.id,
+    size: chosenSize,
+    quantity: 1
+  });
+  
+  try {
+    const response = await api.post('/cart', { 
+      product_id: selectedProduct.id, 
+      quantity: 1, 
+      size: chosenSize 
+    });
+    console.log('Ответ сервера:', response.data);
     
-    const token = localStorage.getItem('token');
-    if (!token) {
-      showInfoMessage('Требуется авторизация', 'Войдите в аккаунт, чтобы добавить товар в корзину', () => {
-        navigate('/login');
-      });
-      return;
-    }
-    
-    try {
-      await api.post('/cart', { 
-        product_id: selectedProduct.id, 
-        quantity: 1, 
-        size: chosenSize 
-      });
-      showInfoMessage('Товар добавлен', `"${selectedProduct.name}" добавлен в корзину (размер ${chosenSize})`, () => {
-        setShowSizeModal(false);
-        setSelectedProduct(null);
-        setChosenSize('');
-      });
-    } catch (error) {
-      console.error('Ошибка:', error);
-      showInfoMessage('Ошибка', 'Ошибка при добавлении в корзину');
-    }
-  };
+    showInfoMessage('Товар добавлен', `"${selectedProduct.name}" добавлен в корзину (размер ${chosenSize})`, () => {
+      setShowSizeModal(false);
+      setSelectedProduct(null);
+      setChosenSize('');
+    });
+  } catch (error) {
+    console.error('Ошибка:', error.response?.data || error.message);
+    showInfoMessage('Ошибка', error.response?.data?.error || 'Ошибка при добавлении в корзину');
+  }
+};
   
   const addToFavorites = async (productId) => {
     const token = localStorage.getItem('token');
