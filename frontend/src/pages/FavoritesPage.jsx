@@ -669,7 +669,7 @@ const FavoritesPage = () => {
               const hasStock = sizes.some(s => s.quantity > 0);
               
               return (
-                <ProductCard as={Link} to={`/product/${product.id}`}>
+                <ProductCard as={Link} to={`/product/${item.product_id}`}>
                   <ProductImage $image={item.image_url}>
                     <BadgeContainer>
                       {item.is_new && <NewBadge>NEW</NewBadge>}
