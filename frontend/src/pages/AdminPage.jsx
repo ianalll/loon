@@ -1375,6 +1375,27 @@ const AdminPage = () => {
         </div>
       </Modal>
       
+            {/* МОДАЛЬНОЕ ОКНО ДОБАВЛЕНИЯ/РЕДАКТИРОВАНИЯ КОЛЛЕКЦИИ */}
+      <Modal isOpen={activeModal === 'collection'} onClose={closeModal}>
+        <ModalTitle>{editingCollection ? 'Редактирование коллекции' : 'Новая коллекция'}</ModalTitle>
+        
+        <Input 
+          placeholder="Название коллекции" 
+          value={collectionFormData.name} 
+          onChange={e => setCollectionFormData({...collectionFormData, name: e.target.value})} 
+        />
+        <Input 
+          placeholder="Описание (необязательно)" 
+          value={collectionFormData.description} 
+          onChange={e => setCollectionFormData({...collectionFormData, description: e.target.value})} 
+        />
+        
+        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+          <ModalButton onClick={handleSaveCollection}>Сохранить</ModalButton>
+          <ModalButtonCancel onClick={closeModal}>Отмена</ModalButtonCancel>
+        </div>
+      </Modal>
+
       {/* МО РЕДАКТИРОВАНИЯ/ДОБАВЛЕНИЯ ТОВАРА */}
       <Modal isOpen={activeModal === 'product'} onClose={closeModal}>
         <ModalTitle>{editingProduct ? 'Редактирование товара' : 'Новый товар'}</ModalTitle>
